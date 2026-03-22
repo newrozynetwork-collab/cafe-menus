@@ -56,7 +56,7 @@ $vogueId = insert($pdo, 'restaurants', [
     'city_id'       => $cityId,
     'name'          => 'Vogue Cafe & Lounge',
     'slug'          => 'vogue',
-    'logo'          => null,
+    'logo'          => 'uploads/Slemani/vogue/vogue-33d0.png',
     'theme_color'   => '#5073B5',
     'body_bg'       => '#ffffff',
     'font'          => 'Poppins',
@@ -73,27 +73,28 @@ $vogueId = insert($pdo, 'restaurants', [
 echo "✓ Restaurant: Vogue (id=$vogueId)\n";
 
 // ── Vogue Categories ─────────────────────────────────────────
+$vogueBase = 'uploads/Slemani/vogue/c/i/l/';
 $vogueCats = [
-    ['Cold Appetizers',       'المقبلات الباردة',    'خواردنی سارد'],
-    ['Hot Appetizers',        'المقبلات الساخنة',    'خواردنی گەرم'],
-    ['Grills',                'المشويات',             'گریل'],
-    ['Pizza',                 'البيتزا',              'پیتزا'],
-    ['Pasta',                 'المعكرونة',            'پاستا'],
-    ['Sandwiches and Burger', 'السندويشات والبرغر',   'ساندویچ و برگەر'],
-    ['Side Dishes',           'الأطباق الجانبية',    'خواردنی لاپەڕ'],
-    ['Hot Plate',             'الطبق الساخن',        'پلاتی گەرم'],
-    ['Grilled Fish',          'السمك المشوي',        'ماسی گریل'],
-    ['Special Foods',         'الأطباق الخاصة',     'خواردنی تایبەت'],
+    ['Cold Appetizers',       'المقبلات الباردة',    'خواردنی سارد',      'vogue-c752.png'],
+    ['Hot Appetizers',        'المقبلات الساخنة',    'خواردنی گەرم',       'vogue-ffb3.png'],
+    ['Grills',                'المشويات',             'گریل',               'vogue-62bd.png'],
+    ['Pizza',                 'البيتزا',              'پیتزا',              'vogue-97d6.png'],
+    ['Pasta',                 'المعكرونة',            'پاستا',              'vogue-9497.png'],
+    ['Sandwiches and Burger', 'السندويشات والبرغر',   'ساندویچ و برگەر',    'vogue-6d03.png'],
+    ['Side Dishes',           'الأطباق الجانبية',    'خواردنی لاپەڕ',      'vogue-c118.png'],
+    ['Hot Plate',             'الطبق الساخن',        'پلاتی گەرم',         'vogue-2efc.png'],
+    ['Grilled Fish',          'السمك المشوي',        'ماسی گریل',          'vogue-6171.png'],
+    ['Special Foods',         'الأطباق الخاصة',     'خواردنی تایبەت',     'vogue-85c9.png'],
 ];
 $vogueCatIds = [];
-foreach ($vogueCats as $i => [$en, $ar, $ku]) {
+foreach ($vogueCats as $i => [$en, $ar, $ku, $icon]) {
     $vogueCatIds[$en] = insert($pdo, 'categories', [
         'restaurant_id' => $vogueId,
         'section_id'    => null,
         'name_en'       => $en,
         'name_ar'       => $ar,
         'name_ku'       => $ku,
-        'icon'          => null,
+        'icon'          => $vogueBase . $icon,
         'sort_order'    => $i,
         'is_active'     => 1,
     ]);
@@ -113,55 +114,56 @@ $catHotPlate = $vogueCatIds['Hot Plate'];
 $catFish     = $vogueCatIds['Grilled Fish'];
 $catSpecial  = $vogueCatIds['Special Foods'];
 
+$imgBase = 'uploads/Slemani/vogue/i/i/m/';
 $vogueItemData = [
-    // [category_id, name_en, name_ar, name_ku, price]
-    [$catColdApp, 'Fattoush',         'فتوش',           'فتووش',             6000],
-    [$catColdApp, 'Tabbulah',         'تبولة',           'تەبولە',            6000],
-    [$catColdApp, 'Rucola',           'روكولا',          'ڕووکولا',           6000],
-    [$catColdApp, 'Greek Salad',      'سلطة يونانية',   'سەلاتەی یونانی',    7000],
-    [$catColdApp, 'Ceasar Salad',     'سلطة سيزر',      'سەلاتەی سیزر',     8000],
-    [$catColdApp, 'Mutabal',          'متبل',            'مەتبەڵ',            6000],
-    [$catColdApp, 'Hummus',           'حمص',             'حومموس',            5000],
-    [$catColdApp, 'Jajik',            'جاجيك',           'جاجیک',             5000],
-    [$catColdApp, 'Kurdish Salad',    'سلطة كردية',     'سەلاتەی کوردی',    6000],
-    [$catColdApp, 'Meat Salad',       'سلطة لحم',       'سەلاتەی گۆشت',    10000],
-    [$catColdApp, 'Beetroot',         'شمندر',           'چووکەندەر',         5000],
-    [$catColdApp, 'Beetroot Rucola',  'شمندر روكولا',   'چووکەندەر ڕووکولا', 7000],
-    [$catColdApp, 'Beetroot Cabbages','شمندر ملفوف',    'چووکەندەر کەلەم',   6000],
-    [$catHotApp,  'Lamb Shanks',      'كراع الغنم',     'چنگاڵی مەڕ',       20000],
-    [$catHotApp,  'Vogue Salad',      'سلطة فوغ',       'سەلاتەی ڤۆگ',      8000],
-    [$catHotApp,  'Cheese Platter',   'طبق الجبن',      'پلاتی پەنیر',      12000],
-    [$catHotApp,  'Chicken Finger',   'أصابع الدجاج',   'ئەنگوستی مریشک',    9000],
-    [$catHotApp,  'Grilled Halummi',  'حلومي مشوي',     'هالومی گریل',       8000],
-    [$catHotApp,  'Gamberi Aglio',    'جامبري أليو',    'گامبێری ئاگلیۆ',   15000],
-    [$catHotApp,  'Hummus with Meat', 'حمص باللحم',     'حومموس بە گۆشت',    8000],
-    [$catHotApp,  'Chicken Liver',    'كبدة الدجاج',    'جگەری مریشک',       8000],
-    [$catGrills,  'Mixed Grill',      'مشاوي مشكلة',    'گریلی تێکەڵ',      25000],
-    [$catGrills,  'Chicken Wings',    'أجنحة الدجاج',   'بازنی مریشک',      12000],
-    [$catGrills,  'Lamb Chops',       'ضلوع الخروف',    'ئینچی مەڕ',        22000],
-    [$catGrills,  'Beef Steak',       'ستيك لحم بقري',  'ستیکی گاوی',       20000],
-    [$catPizza,   'Margherita',       'مارغريتا',       'مارگاریتا',        10000],
-    [$catPizza,   'BBQ Chicken',      'دجاج بي بي كيو', 'مریشکی BBQ',       12000],
-    [$catPizza,   'Pepperoni',        'بيبروني',         'پیپەرۆنی',         12000],
-    [$catPizza,   'Four Cheese',      'أربع جبن',       'چوار جۆر پەنیر',   13000],
-    [$catPasta,   'Carbonara',        'كاربونارا',      'کاربۆنارا',        10000],
-    [$catPasta,   'Bolognese',        'بولونيز',         'بۆلۆنێز',          10000],
-    [$catPasta,   'Arabiata',         'ارابياتا',        'ئارابیاتا',        10000],
-    [$catSandwich,'Club Sandwich',    'كلوب سندويش',    'کلوب ساندویچ',      8000],
-    [$catSandwich,'Vogue Burger',     'برغر فوغ',       'برگەری ڤۆگ',       12000],
-    [$catSandwich,'Crispy Chicken',   'دجاج مقرمش',     'مریشکی کریسپی',     9000],
-    [$catSide,    'French Fries',     'بطاطس مقلية',    'فریتس',             4000],
-    [$catSide,    'Onion Rings',      'حلقات البصل',    'مەزگەی پیاز',       4000],
-    [$catSide,    'Garlic Bread',     'خبز بالثوم',     'نانی سەمووق',       3000],
-    [$catHotPlate,'Lamb Rice',        'رز باللحم',      'برنجی گۆشت',       18000],
-    [$catHotPlate,'Chicken Rice',     'رز بالدجاج',     'برنجی مریشک',      15000],
-    [$catFish,    'Masgouf',          'مسقوف',           'مەسقووف',          25000],
-    [$catFish,    'Grilled Salmon',   'سلمون مشوي',     'سالمۆنی گریل',     20000],
-    [$catSpecial, 'Vogue Special',    'خاص فوغ',        'تایبەتی ڤۆگ',      30000],
+    // [category_id, name_en, name_ar, name_ku, price, img]
+    [$catColdApp, 'Fattoush',         'فتوش',           'فتووش',             6000,  'vogue(269).jpg'],
+    [$catColdApp, 'Tabbulah',         'تبولة',           'تەبولە',            6000,  'vogue(272).jpg'],
+    [$catColdApp, 'Rucola',           'روكولا',          'ڕووکولا',           6000,  'vogue(275).jpg'],
+    [$catColdApp, 'Greek Salad',      'سلطة يونانية',   'سەلاتەی یونانی',    7000,  'vogue(278).jpg'],
+    [$catColdApp, 'Ceasar Salad',     'سلطة سيزر',      'سەلاتەی سیزر',     8000,  'vogue(281).jpg'],
+    [$catColdApp, 'Mutabal',          'متبل',            'مەتبەڵ',            6000,  'vogue(284).jpg'],
+    [$catColdApp, 'Hummus',           'حمص',             'حومموس',            5000,  'vogue(287).jpg'],
+    [$catColdApp, 'Jajik',            'جاجيك',           'جاجیک',             5000,  'vogue(290).jpg'],
+    [$catColdApp, 'Kurdish Salad',    'سلطة كردية',     'سەلاتەی کوردی',    6000,  'vogue(293).jpg'],
+    [$catColdApp, 'Meat Salad',       'سلطة لحم',       'سەلاتەی گۆشت',    10000, 'vogue(296).jpg'],
+    [$catColdApp, 'Beetroot',         'شمندر',           'چووکەندەر',         5000,  'vogue(299).jpeg'],
+    [$catColdApp, 'Beetroot Rucola',  'شمندر روكولا',   'چووکەندەر ڕووکولا', 7000,  'vogue(302).jpeg'],
+    [$catColdApp, 'Beetroot Cabbages','شمندر ملفوف',    'چووکەندەر کەلەم',   6000,  'vogue(305).png'],
+    [$catHotApp,  'Lamb Shanks',      'كراع الغنم',     'چنگاڵی مەڕ',       20000, 'vogue(320).png'],
+    [$catHotApp,  'Vogue Salad',      'سلطة فوغ',       'سەلاتەی ڤۆگ',      8000,  null],
+    [$catHotApp,  'Cheese Platter',   'طبق الجبن',      'پلاتی پەنیر',      12000, null],
+    [$catHotApp,  'Chicken Finger',   'أصابع الدجاج',   'ئەنگوستی مریشک',    9000,  null],
+    [$catHotApp,  'Grilled Halummi',  'حلومي مشوي',     'هالومی گریل',       8000,  null],
+    [$catHotApp,  'Gamberi Aglio',    'جامبري أليو',    'گامبێری ئاگلیۆ',   15000, null],
+    [$catHotApp,  'Hummus with Meat', 'حمص باللحم',     'حومموس بە گۆشت',    8000,  null],
+    [$catHotApp,  'Chicken Liver',    'كبدة الدجاج',    'جگەری مریشک',       8000,  null],
+    [$catGrills,  'Mixed Grill',      'مشاوي مشكلة',    'گریلی تێکەڵ',      25000, null],
+    [$catGrills,  'Chicken Wings',    'أجنحة الدجاج',   'بازنی مریشک',      12000, null],
+    [$catGrills,  'Lamb Chops',       'ضلوع الخروف',    'ئینچی مەڕ',        22000, null],
+    [$catGrills,  'Beef Steak',       'ستيك لحم بقري',  'ستیکی گاوی',       20000, null],
+    [$catPizza,   'Margherita',       'مارغريتا',       'مارگاریتا',        10000, null],
+    [$catPizza,   'BBQ Chicken',      'دجاج بي بي كيو', 'مریشکی BBQ',       12000, null],
+    [$catPizza,   'Pepperoni',        'بيبروني',         'پیپەرۆنی',         12000, null],
+    [$catPizza,   'Four Cheese',      'أربع جبن',       'چوار جۆر پەنیر',   13000, null],
+    [$catPasta,   'Carbonara',        'كاربونارا',      'کاربۆنارا',        10000, null],
+    [$catPasta,   'Bolognese',        'بولونيز',         'بۆلۆنێز',          10000, null],
+    [$catPasta,   'Arabiata',         'ارابياتا',        'ئارابیاتا',        10000, null],
+    [$catSandwich,'Club Sandwich',    'كلوب سندويش',    'کلوب ساندویچ',      8000,  null],
+    [$catSandwich,'Vogue Burger',     'برغر فوغ',       'برگەری ڤۆگ',       12000, null],
+    [$catSandwich,'Crispy Chicken',   'دجاج مقرمش',     'مریشکی کریسپی',     9000,  null],
+    [$catSide,    'French Fries',     'بطاطس مقلية',    'فریتس',             4000,  null],
+    [$catSide,    'Onion Rings',      'حلقات البصل',    'مەزگەی پیاز',       4000,  null],
+    [$catSide,    'Garlic Bread',     'خبز بالثوم',     'نانی سەمووق',       3000,  null],
+    [$catHotPlate,'Lamb Rice',        'رز باللحم',      'برنجی گۆشت',       18000, null],
+    [$catHotPlate,'Chicken Rice',     'رز بالدجاج',     'برنجی مریشک',      15000, null],
+    [$catFish,    'Masgouf',          'مسقوف',           'مەسقووف',          25000, null],
+    [$catFish,    'Grilled Salmon',   'سلمون مشوي',     'سالمۆنی گریل',     20000, null],
+    [$catSpecial, 'Vogue Special',    'خاص فوغ',        'تایبەتی ڤۆگ',      30000, null],
 ];
 
 $itemCount = 0;
-foreach ($vogueItemData as $i => [$catId, $en, $ar, $ku, $price]) {
+foreach ($vogueItemData as $i => [$catId, $en, $ar, $ku, $price, $img]) {
     insert($pdo, 'items', [
         'restaurant_id' => $vogueId,
         'category_id'   => $catId,
@@ -169,7 +171,7 @@ foreach ($vogueItemData as $i => [$catId, $en, $ar, $ku, $price]) {
         'name_ar'       => $ar,
         'name_ku'       => $ku,
         'price'         => $price,
-        'image'         => null,
+        'image'         => $img ? $imgBase . $img : null,
         'is_active'     => 1,
         'sort_order'    => $i,
     ]);
@@ -184,7 +186,7 @@ $almajleesId = insert($pdo, 'restaurants', [
     'city_id'          => $cityId,
     'name'             => 'Almajlees Cafe',
     'slug'             => 'almajlees',
-    'logo'             => null,
+    'logo'             => 'uploads/Slemani/almajlees/almajlees-0cfe.png',
     'theme_color'      => '#643A1B',
     'body_bg'          => '#643A1B',
     'font'             => 'rabar',
@@ -203,19 +205,20 @@ $almajleesId = insert($pdo, 'restaurants', [
 echo "✓ Restaurant: Almajlees (id=$almajleesId)\n";
 
 // ── Almajlees Categories ──────────────────────────────────────
+$almBase = 'uploads/Slemani/almajlees/c/i/l/';
 $almCats = [
-    ['Breakfast Set',   'طقم الإفطار', 'ژەمی بەیانیان'],
-    ['Breakfast Bread', 'خبز الإفطار', 'نانی بەیانی'],
+    ['Breakfast Set',   'طقم الإفطار', 'ژەمی بەیانیان', 'almajlees-9875.png'],
+    ['Breakfast Bread', 'خبز الإفطار', 'نانی بەیانی',   'almajlees-e599.png'],
 ];
 $almCatIds = [];
-foreach ($almCats as $i => [$en, $ar, $ku]) {
+foreach ($almCats as $i => [$en, $ar, $ku, $icon]) {
     $almCatIds[$en] = insert($pdo, 'categories', [
         'restaurant_id' => $almajleesId,
         'section_id'    => null,
         'name_en'       => $en,
         'name_ar'       => $ar,
         'name_ku'       => $ku,
-        'icon'          => null,
+        'icon'          => $almBase . $icon,
         'sort_order'    => $i,
         'is_active'     => 1,
     ]);
@@ -223,21 +226,22 @@ foreach ($almCats as $i => [$en, $ar, $ku]) {
 echo "✓ Almajlees categories: " . count($almCatIds) . "\n";
 
 // ── Almajlees Items ───────────────────────────────────────────
+$almImgBase    = 'uploads/Slemani/almajlees/i/i/m/';
 $catBreakSet   = $almCatIds['Breakfast Set'];
 $catBreakBread = $almCatIds['Breakfast Bread'];
 $almItems = [
-    [$catBreakSet,   'Almajlees Breakfast Set', 'طقم فطور المجالس', 'ژەمی بەیانیانی ئەلمەجلیس', 36000],
-    [$catBreakSet,   'Two Person Set',           'طقم شخصين',        'ژەمی دوو کەسی',            15500],
-    [$catBreakSet,   'Four Person Set',          'طقم أربعة أشخاص',  'ژەمی چوار کەسی',           27000],
-    [$catBreakSet,   'One Person Set',           'طقم شخص واحد',     'ژەمی یەک کەسی',             7000],
-    [$catBreakSet,   'English Breakfast',        'فطور إنجليزي',     'ژەمی بەیانی ئینگلیزی',      8500],
-    [$catBreakBread, 'Samoon Bread',             'خبز السمون',       'نانی سەمووق',               1500],
-    [$catBreakBread, 'Toast Bread',              'خبز التوست',       'نانی تووس',                 1000],
-    [$catBreakBread, 'Lavash Bread',             'خبز اللاواش',      'نانی لاڤاش',               1000],
+    [$catBreakSet,   'Almajlees Breakfast Set', 'طقم فطور المجالس', 'ژەمی بەیانیانی ئەلمەجلیس', 36000, 'almajlees(18).png'],
+    [$catBreakSet,   'Two Person Set',           'طقم شخصين',        'ژەمی دوو کەسی',            15500, 'almajlees(9).jpg'],
+    [$catBreakSet,   'Four Person Set',          'طقم أربعة أشخاص',  'ژەمی چوار کەسی',           27000, 'almajlees(12).jpg'],
+    [$catBreakSet,   'One Person Set',           'طقم شخص واحد',     'ژەمی یەک کەسی',             7000, 'almajlees(6).jpg'],
+    [$catBreakSet,   'English Breakfast',        'فطور إنجليزي',     'ژەمی بەیانی ئینگلیزی',      8500, 'almajlees(21).png'],
+    [$catBreakBread, 'Samoon Bread',             'خبز السمون',       'نانی سەمووق',               1500, null],
+    [$catBreakBread, 'Toast Bread',              'خبز التوست',       'نانی تووس',                 1000, null],
+    [$catBreakBread, 'Lavash Bread',             'خبز اللاواش',      'نانی لاڤاش',               1000, null],
 ];
 
 $almCount = 0;
-foreach ($almItems as $i => [$catId, $en, $ar, $ku, $price]) {
+foreach ($almItems as $i => [$catId, $en, $ar, $ku, $price, $img]) {
     insert($pdo, 'items', [
         'restaurant_id' => $almajleesId,
         'category_id'   => $catId,
@@ -245,7 +249,7 @@ foreach ($almItems as $i => [$catId, $en, $ar, $ku, $price]) {
         'name_ar'       => $ar,
         'name_ku'       => $ku,
         'price'         => $price,
-        'image'         => null,
+        'image'         => $img ? $almImgBase . $img : null,
         'is_active'     => 1,
         'sort_order'    => $i,
     ]);

@@ -2,9 +2,10 @@
 database/tirana.db
 database/*.db
 
-# Uploaded files (user content — keep dir structure but not files)
+# Uploaded files — seed images are committed, future admin uploads are not
 uploads/*
 !uploads/.gitkeep
+!uploads/Slemani/
 
 # PHP session/cache
 *.session
