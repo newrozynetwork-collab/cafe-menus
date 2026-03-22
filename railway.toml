@@ -3,6 +3,6 @@ builder = "nixpacks"
 buildCommand = "mkdir -p uploads database && php database/seed.php"
 
 [deploy]
-startCommand = "php -S 0.0.0.0:$PORT index.php"
+startCommand = "PHP_CLI_SERVER_WORKERS=8 php -S 0.0.0.0:$PORT index.php"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3

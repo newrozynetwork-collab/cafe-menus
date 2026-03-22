@@ -13,4 +13,4 @@ nixPkgs = [
 cmds = ["mkdir -p uploads database && php database/seed.php"]
 
 [start]
-cmd = "php -S 0.0.0.0:$PORT index.php"
+cmd = "PHP_CLI_SERVER_WORKERS=8 php -S 0.0.0.0:$PORT index.php"
