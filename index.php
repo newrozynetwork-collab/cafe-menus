@@ -11,12 +11,23 @@ $_scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || ($_SERV
 define('BASE_URL',  $_scheme . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
 define('BASE_PATH', '/');
 
+// ── PHP built-in server: serve static files directly ─────────
+// Without this, the router intercepts every .css/.js/.png request → 503
+if (PHP_SAPI === 'cli-server') {
+    $uri      = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $filepath = ROOT . $uri;
+    // Serve non-PHP static files (css, js, images, fonts, svg…) directly
+    if ($uri !== '/' && is_file($filepath) && !str_ends_with($uri, '.php')) {
+        return false;
+    }
+}
+
 require_once ROOT . '/core/DB.php';
 require_once ROOT . '/core/Auth.php';
 require_once ROOT . '/core/helpers.php';
 
 // ── Parse route ──────────────────────────────────────────────
-$path    = request_path();                     // e.g. /vogue/menu
+$path     = request_path();                    // e.g. /vogue/menu
 $segments = array_values(array_filter(explode('/', $path)));
 // segments: [] | ['vogue'] | ['vogue','menu'] | ['api','...']
 
@@ -28,9 +39,20 @@ if (($segments[0] ?? '') === 'api') {
 
 // ── Admin routes ─────────────────────────────────────────────
 if (($segments[0] ?? '') === 'admin') {
-    // PHP built-in server quirk: re-route to admin/index.php
-    $_SERVER['SCRIPT_NAME'] = '/admin/index.php';
-    require_once ROOT . '/admin/index.php';
+    $uri       = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $adminFile = ROOT . $uri;
+
+    // Route to the specific admin PHP file requested (dashboard.php, items.php, etc.)
+    if (is_file($adminFile) && str_ends_with($adminFile, '.php')) {
+        $_SERVER['PHP_SELF']    = $uri;
+        $_SERVER['SCRIPT_NAME'] = $uri;
+        require_once $adminFile;
+    } else {
+        // Default: login / index
+        $_SERVER['PHP_SELF']    = '/admin/index.php';
+        $_SERVER['SCRIPT_NAME'] = '/admin/index.php';
+        require_once ROOT . '/admin/index.php';
+    }
     exit;
 }
 
