@@ -1,0 +1,25 @@
+# Database (contains real data — do not commit to public repos)
+database/tirana.db
+database/*.db
+
+# Uploaded files (user content — large, should use object storage in production)
+uploads/
+
+# PHP session/cache
+*.session
+*.cache
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+error_log

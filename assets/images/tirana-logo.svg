@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <!-- White background -->
+  <rect width="500" height="500" fill="white"/>
+
+  <!-- TIRANA bold text -->
+  <text x="28" y="285"
+    font-family="Arial Black, Impact, sans-serif"
+    font-weight="900"
+    font-size="148"
+    letter-spacing="-4"
+    fill="#111111">TIRANA</text>
+
+  <!-- Red POINT rectangle (right side, vertical) -->
+  <rect x="388" y="148" width="88" height="210" rx="0" fill="#D42B2B"/>
+  <text
+    transform="translate(434, 348) rotate(-90)"
+    font-family="Arial Black, Impact, sans-serif"
+    font-weight="900"
+    font-size="54"
+    letter-spacing="2"
+    fill="white"
+    text-anchor="start">POINT</text>
+
+  <!-- Arabic/Kurdish bottom row -->
+  <!-- "تیرانا" black script -->
+  <text x="278" y="400"
+    font-family="'Noto Naskh Arabic', 'Scheherazade New', Georgia, serif"
+    font-size="72"
+    font-weight="400"
+    fill="#111111"
+    text-anchor="end"
+    direction="rtl">تیرانا</text>
+
+  <!-- Red rectangle for پۆینت -->
+  <rect x="106" y="332" width="148" height="76" rx="4" fill="#D42B2B"/>
+  <text x="180" y="391"
+    font-family="'Noto Naskh Arabic', 'Scheherazade New', Georgia, serif"
+    font-size="58"
+    font-weight="700"
+    fill="white"
+    text-anchor="middle"
+    direction="rtl">پۆینت</text>
+</svg>

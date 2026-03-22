@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 80" width="340" height="80">
+  <!-- TIRANA text -->
+  <text x="4" y="62"
+    font-family="Arial Black, Impact, sans-serif"
+    font-weight="900"
+    font-size="64"
+    letter-spacing="-2"
+    fill="#111111">TIRANA</text>
+  <!-- Red POINT pill -->
+  <rect x="252" y="8" width="82" height="54" rx="4" fill="#D42B2B"/>
+  <text x="293" y="46"
+    font-family="Arial Black, Impact, sans-serif"
+    font-weight="900"
+    font-size="20"
+    letter-spacing="1"
+    fill="white"
+    text-anchor="middle">POINT</text>
+</svg>
