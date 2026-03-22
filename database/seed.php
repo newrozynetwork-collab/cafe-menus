@@ -7,6 +7,9 @@
 define('ROOT', dirname(__DIR__));
 $dbPath = ROOT . '/database/tirana.db';
 
+// Ensure database directory exists
+if (!is_dir(dirname($dbPath))) mkdir(dirname($dbPath), 0755, true);
+
 // Create DB from schema
 $pdo = new PDO('sqlite:' . $dbPath);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -16,6 +19,13 @@ foreach (array_filter(array_map('trim', explode(';', $schema))) as $stmt) {
     if ($stmt) $pdo->exec($stmt . ';');
 }
 echo "✓ Schema applied\n";
+
+// ── Idempotency check — skip if already seeded ────────────────
+$alreadySeeded = (int)$pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+if ($alreadySeeded > 0) {
+    echo "✓ Database already seeded ($alreadySeeded users found). Skipping.\n";
+    exit(0);
+}
 
 // ── Helpers ──────────────────────────────────────────────────
 function insert(PDO $pdo, string $table, array $data): int {

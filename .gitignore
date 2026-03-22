@@ -2,8 +2,9 @@
 database/tirana.db
 database/*.db
 
-# Uploaded files (user content — large, should use object storage in production)
-uploads/
+# Uploaded files (user content — keep dir structure but not files)
+uploads/*
+!uploads/.gitkeep
 
 # PHP session/cache
 *.session

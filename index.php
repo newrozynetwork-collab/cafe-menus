@@ -6,7 +6,9 @@
  */
 
 define('ROOT',      __DIR__);
-define('BASE_URL',  'http://localhost:8000');
+// Auto-detect base URL — works on localhost and Railway/production
+$_scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https' ? 'https' : 'http';
+define('BASE_URL',  $_scheme . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
 define('BASE_PATH', '/');
 
 require_once ROOT . '/core/DB.php';
