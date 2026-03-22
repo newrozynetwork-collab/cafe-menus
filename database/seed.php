@@ -459,6 +459,208 @@ foreach ($ccItems as $i => [$catEn, $ku, $ar, $en, $price, $img]) {
 }
 echo "✓ C.C. items: $ccCount\n";
 
+// ── C.C. Drinks Categories ────────────────────────────────────
+$drinksCatDefs = [
+    [$secDrinks, 'Carbonated Drinks', 'المشروبات الغازية',  'خواردنەوە گازییەکان', 'c.c.rest.cafe-4c1d.png', 0],
+    [$secDrinks, 'Hot Drinks',        'المشروبات الساخنة', 'خواردنەوە گەرمەکان',  'c.c.rest.cafe-2d03.png', 1],
+    [$secDrinks, 'Iced Coffee',       'القهوة المثلجة',    'ئایس کۆفی',           'c.c.rest.cafe-bd8c.png', 2],
+    [$secDrinks, 'Cocktail',          'كوكتيل',            'کۆکتێل',              'c.c.rest.cafe-f7d8.png', 3],
+    [$secDrinks, 'Smoothie',          'سموزي',             'سموزی',               'c.c.rest.cafe-0427.png', 4],
+    [$secDrinks, 'Fresh Juice',       'عصير طازج',         'شەربەتی فرێش',        'c.c.rest.cafe-0217.png', 5],
+    [$secDrinks, 'Milkshake',         'ميلك شيك',          'میڵک شەیک',           'c.c.rest.cafe-9f5a.png', 6],
+    [$secDrinks, 'Milk-Based',        'مشروبات الحليب',    'ئامادەکراو بە شیر',   'c.c.rest.cafe-e3ab.png', 7],
+    [$secDrinks, 'Fruit Bowl',        'طبق الفاكهة',       'قاپێک میوە',          'c.c.rest.cafe-c3d9.png', 8],
+];
+$drinksCatIds = [];
+foreach ($drinksCatDefs as [$secId, $en, $ar, $ku, $icon, $sort]) {
+    $drinksCatIds[$en] = insert($pdo, 'categories', [
+        'restaurant_id' => $ccId,
+        'section_id'    => $secId,
+        'name_en'       => $en,
+        'name_ar'       => $ar,
+        'name_ku'       => $ku,
+        'icon'          => $ccBase . $icon,
+        'sort_order'    => $sort,
+        'is_active'     => 1,
+    ]);
+}
+echo "✓ C.C. drinks categories: " . count($drinksCatIds) . "\n";
+
+// ── C.C. Drinks Items ─────────────────────────────────────────
+$drinksItems = [
+    // خواردنەوە گازییەکان  Carbonated Drinks
+    ['Carbonated Drinks', 'ئاو',          'ماء',             'Water',          1000, 'c.c.rest.cafe(717).jpg'],
+    ['Carbonated Drinks', 'کۆلا',         'كوكاكولا',        'Cola',           1000, 'c.c.rest.cafe(720).jpg'],
+    ['Carbonated Drinks', 'فانتا',        'فانتا',           'Fanta',          1000, 'c.c.rest.cafe(723).jpg'],
+    ['Carbonated Drinks', 'سپرایت',       'سبرايت',          'Sprite',         1000, 'c.c.rest.cafe(726).jpg'],
+    ['Carbonated Drinks', 'سۆدە لیمۆن',  'صودا الليمون',   'Lemon Soda',     1500, 'c.c.rest.cafe(729).jpg'],
+    ['Carbonated Drinks', 'ڕید بۆڵ',     'ريد بول',         'Red Bull',       3000, 'c.c.rest.cafe(732).jpg'],
+    ['Carbonated Drinks', 'کۆلای زیڕۆ',  'كوكاكولا زيرو',  'Coca-Cola Zero', 1000, 'c.c.rest.cafe(735).jpg'],
+    // خواردنەوە گەرمەکان  Hot Drinks
+    ['Hot Drinks', 'لاتێ ماک',           'لاتيه ماك',       'Latte Mak',      5000, 'c.c.rest.cafe(474).jpg'],
+    ['Hot Drinks', 'ئیسپرێسۆ',           'إسبريسو',         'Espresso',       3000, 'c.c.rest.cafe(480).jpg'],
+    ['Hot Drinks', 'دەبڵ ئیسپرێسۆ',      'إسبريسو مضاعف',  'Double Espresso', 5000, 'c.c.rest.cafe(477).jpg'],
+    ['Hot Drinks', 'کاپوچینۆ',           'كابوتشينو',       'Cappuccino',     4000, 'c.c.rest.cafe(483).jpg'],
+    ['Hot Drinks', 'قاوەی ڕەش',          'قهوة سوداء',     'Black Coffee',   4000, 'c.c.rest.cafe(486).jpg'],
+    ['Hot Drinks', 'قاوەی سپی',          'قهوة بيضاء',     'White Coffee',   4000, 'c.c.rest.cafe(489).jpg'],
+    ['Hot Drinks', 'ئەمریکانۆ',          'أمريكانو',        'Americano',      5000, 'c.c.rest.cafe(525).jpg'],
+    ['Hot Drinks', 'نێسکافێ',            'نسكافيه',         'Nescafe',        3500, 'c.c.rest.cafe(492).jpg'],
+    ['Hot Drinks', 'کۆفی لاتێ',          'كوفي لاتيه',     'Coffee Latte',   4000, 'c.c.rest.cafe(495).jpg'],
+    ['Hot Drinks', 'کۆفێ مەیت',          'كوفي ميت',       'Cafe Miel',      5000, 'c.c.rest.cafe(498).jpg'],
+    ['Hot Drinks', 'قاوەی عەرەبی',       'قهوة عربية',     'Arabic Coffee',  3000, 'c.c.rest.cafe(510).jpg'],
+    ['Hot Drinks', 'قاوەی تورکی',        'قهوة تركية',     'Turkish Coffee', 3000, 'c.c.rest.cafe(513).jpg'],
+    ['Hot Drinks', 'قاوەی قەزوان',       'قهوة قزوين',     'Qazwan Coffee',  3000, 'c.c.rest.cafe(504).jpg'],
+    ['Hot Drinks', 'چۆکلێتی گەرم',       'شوكولاتة ساخنة', 'Hot Chocolate',  4000, 'c.c.rest.cafe(507).jpg'],
+    ['Hot Drinks', 'شیری گەرم',          'حليب ساخن',      'Hot Milk',       3000, 'c.c.rest.cafe(516).jpg'],
+    ['Hot Drinks', 'چای سەوز',           'شاي أخضر',       'Green Tea',      2000, 'c.c.rest.cafe(519).jpg'],
+    ['Hot Drinks', 'چا',                 'شاي',             'Tea',            1000, 'c.c.rest.cafe(522).jpg'],
+    ['Hot Drinks', 'کاکاو',              'كاكاو',           'Cacao',          4000, 'c.c.rest.cafe(528).jpeg'],
+    ['Hot Drinks', 'ماکیاتۆ ئیسپرێسۆ',  'ماكياتو إسبريسو','Espresso Macchiato', 3500, 'c.c.rest.cafe(531).jpeg'],
+    ['Hot Drinks', 'نیسکویک',            'نسكويك',          'Nesquik',        4000, 'c.c.rest.cafe(534).jpeg'],
+    ['Hot Drinks', 'قاوەی فستق',         'قهوة فستق',      'Pistachio Coffee', 3000, 'c.c.rest.cafe(537).jpeg'],
+    // ئایس کۆفی  Iced Coffee
+    ['Iced Coffee', 'قاوەی سارد',        'قهوة باردة',     'Cold Coffee',    5000, 'c.c.rest.cafe(542).jpg'],
+    ['Iced Coffee', 'کاپوچینۆی سارد',    'كابوتشينو بارد', 'Iced Cappuccino', 5000, 'c.c.rest.cafe(545).jpg'],
+    ['Iced Coffee', 'ئایس لاتێ',         'لاتيه مثلج',     'Iced Latte',     5000, 'c.c.rest.cafe(551).jpg'],
+    ['Iced Coffee', 'ئایسد مۆکا',        'موكا مثلج',      'Iced Mocha',     5000, 'c.c.rest.cafe(548).jpg'],
+    ['Iced Coffee', 'فراپێی یۆنانی',     'فرابي يوناني',   'Greek Frappe',   5000, 'c.c.rest.cafe(554).jpg'],
+    ['Iced Coffee', 'فرێدۆ ئیسپرێسۆ',   'فريدو إسبريسو',  'Freddo Espresso', 3000, 'c.c.rest.cafe(560).jpg'],
+    ['Iced Coffee', 'ئەفۆگاتۆ',          'أفوغاتو',        'Affogato',       5000, 'c.c.rest.cafe(563).jpeg'],
+    // کۆکتێل  Cocktail
+    ['Cocktail', 'پینا کۆلادا',          'بينا كولادا',    'Pina Colada',    5000, 'c.c.rest.cafe(568).jpg'],
+    ['Cocktail', 'ترۆپیکانا',            'تروبيكانا',      'Tropicana',      5000, 'c.c.rest.cafe(571).jpg'],
+    ['Cocktail', 'خواردنەوەی مەلەوانگە', 'مشروب المسبح',  'Pool Drink',     5000, 'c.c.rest.cafe(574).jpg'],
+    ['Cocktail', 'چوار وەرز',            'أربعة فصول',     'Four Seasons',   5000, 'c.c.rest.cafe(577).jpg'],
+    ['Cocktail', 'ڕێد لیپس',            'ريد ليبس',       'Red Lips',       5000, 'c.c.rest.cafe(580).jpg'],
+    ['Cocktail', 'خواردنەوای کۆنی جامایکا', 'كورنر جاميكا', 'Jamaica Corner', 5000, 'c.c.rest.cafe(583).jpg'],
+    ['Cocktail', 'کۆکتێلی سەوز',        'كوكتيل أخضر',   'Green Cocktail', 6000, 'c.c.rest.cafe(586).jpg'],
+    ['Cocktail', 'مۆهیتۆ',              'موهيتو',          'Mojito',         6000, 'c.c.rest.cafe(589).jpg'],
+    ['Cocktail', 'پارادایس',             'باراديس',        'Paradise',       5000, 'c.c.rest.cafe(592).jpg'],
+    ['Cocktail', 'مارگرێتا',             'مارغريتا',       'Margarita',      3000, 'c.c.rest.cafe(595).jpg'],
+    ['Cocktail', 'مەکسیکی',             'مكسيكي',          'Mexican',        5000, 'c.c.rest.cafe(598).jpg'],
+    ['Cocktail', 'کۆکتێلی گوڵ',         'كوكتيل الورد',   'Rose Cocktail',  5000, 'c.c.rest.cafe(604).jpeg'],
+    ['Cocktail', 'بەبڵ گەم',             'بابل غام',       'Bubble Gum',     5000, 'c.c.rest.cafe(607).png'],
+    // سموزی  Smoothie
+    ['Smoothie', 'شیلیک',               'فراولة',          'Strawberry',     5000, 'c.c.rest.cafe(612).jpg'],
+    ['Smoothie', 'مانگۆ',               'مانغو',           'Mango',          5000, 'c.c.rest.cafe(615).jpg'],
+    ['Smoothie', 'شاتوو',               'شاتو',            'Chateau',        5000, 'c.c.rest.cafe(639).png'],
+    ['Smoothie', 'ئەناناس',             'أناناس',          'Pineapple',      5000, 'c.c.rest.cafe(618).jpg'],
+    ['Smoothie', 'کاڵەک',               'أفوكادو',         'Avocado',        5000, 'c.c.rest.cafe(621).jpg'],
+    ['Smoothie', 'شووتی',               'شوتي',            'Shooty',         5000, 'c.c.rest.cafe(624).jpg'],
+    ['Smoothie', 'خۆخ',                 'توت',             'Mulberry',       5000, 'c.c.rest.cafe(627).jpg'],
+    ['Smoothie', 'هەنجیر',              'تين',             'Fig',            5000, 'c.c.rest.cafe(630).jpg'],
+    ['Smoothie', 'کیوی',                'كيوي',            'Kiwi',           5000, 'c.c.rest.cafe(633).jpg'],
+    // شەربەتی فرێش  Fresh Juice
+    ['Fresh Juice', 'پڕتەقاڵ',          'برتقال',          'Orange',         4000, 'c.c.rest.cafe(644).jpg'],
+    ['Fresh Juice', 'نەعنا و لیمۆ',     'نعناع وليمون',   'Mint & Lemon',   5000, 'c.c.rest.cafe(647).jpg'],
+    ['Fresh Juice', 'شەربەتی لیمۆ',     'عصير الليمون',   'Lemon Juice',    4000, 'c.c.rest.cafe(650).jpg'],
+    ['Fresh Juice', 'سندی',             'ليموناضة',        'Lemonade',       5000, 'c.c.rest.cafe(653).jpg'],
+    ['Fresh Juice', 'مۆز',              'موز',             'Banana',         5000, 'c.c.rest.cafe(656).jpg'],
+    ['Fresh Juice', 'شیلیک',            'فراولة',          'Strawberry',     5000, 'c.c.rest.cafe(659).jpg'],
+    ['Fresh Juice', 'شوتی',             'شوتي',            'Shooty',         5000, 'c.c.rest.cafe(662).jpg'],
+    ['Fresh Juice', 'ئەنەناس',          'أناناس',          'Pineapple',      5000, 'c.c.rest.cafe(665).jpg'],
+    ['Fresh Juice', 'لیمۆ و پرتەقاڵ',  'ليمون وبرتقال',  'Lemon & Orange', 5000, 'c.c.rest.cafe(668).jpg'],
+    ['Fresh Juice', 'سندی و لیمۆ و پڕتەقاڵ', 'ليموناضة وليمون وبرتقال', 'Lemonade Mix', 5000, 'c.c.rest.cafe(671).jpg'],
+    ['Fresh Juice', 'لیمۆن و زەنجەفیل', 'ليمون وزنجبيل',  'Lemon & Ginger', 5000, 'c.c.rest.cafe(674).jpg'],
+    ['Fresh Juice', 'شەربەتی تایبەتی سی سی', 'عصير سي سي المميز', 'C.C. Special Juice', 7000, 'c.c.rest.cafe(677).jpg'],
+    ['Fresh Juice', 'کاڵەک',            'أفوكادو',         'Avocado',        5000, 'c.c.rest.cafe(683).jpg'],
+    // میڵک شەیک  Milkshake
+    ['Milkshake', 'میڵک شەیکی کارامێڵ', 'ميلك شيك كراميل','Caramel Milkshake', 5000, 'c.c.rest.cafe(688).jpg'],
+    ['Milkshake', 'میڵک شەیکی ڤانێلا',  'ميلك شيك فانيلا','Vanilla Milkshake', 5000, 'c.c.rest.cafe(691).jpg'],
+    ['Milkshake', 'میڵک شەیکی شوکولاتە','ميلك شيك شوكولاتة','Chocolate Milkshake', 5000, 'c.c.rest.cafe(694).jpg'],
+    ['Milkshake', 'میڵک شەیکی فستق',    'ميلك شيك فستق', 'Pistachio Milkshake', 5000, 'c.c.rest.cafe(697).jpg'],
+    ['Milkshake', 'میڵک شەیکی شلیک',    'ميلك شيك فراولة','Strawberry Milkshake', 5000, 'c.c.rest.cafe(700).jpg'],
+    ['Milkshake', 'میڵک شەیکی مۆز و شوکولاتە', 'ميلك شيك موز وشوكولاتة', 'Banana Choco Milkshake', 5000, 'c.c.rest.cafe(703).jpg'],
+    ['Milkshake', 'میڵک شەیکی تایبەتی سی.سی', 'ميلك شيك سي سي المميز', 'C.C. Special Milkshake', 6000, 'c.c.rest.cafe(706).jpg'],
+    ['Milkshake', 'میڵک شەیکی نۆتێلا و ڤانێلا', 'ميلك شيك نوتيلا وفانيلا', 'Nutella Vanilla Milkshake', 6000, 'c.c.rest.cafe(709).png'],
+    // ئامادەکراو بە شیر  Milk-Based
+    ['Milk-Based', 'شیر شووتی',         'شير شوتي',        'Milk Shooty',    5000, 'c.c.rest.cafe(738).png'],
+];
+
+$drinksCount = 0;
+foreach ($drinksItems as $i => [$catEn, $ku, $ar, $en, $price, $img]) {
+    insert($pdo, 'items', [
+        'restaurant_id' => $ccId,
+        'category_id'   => $drinksCatIds[$catEn],
+        'name_en'       => $en,
+        'name_ar'       => $ar,
+        'name_ku'       => $ku,
+        'price'         => $price,
+        'image'         => $ccImgBase . $img,
+        'is_active'     => 1,
+        'sort_order'    => $i,
+    ]);
+    $drinksCount++;
+}
+echo "✓ C.C. drinks items: $drinksCount\n";
+
+// ── C.C. Hookah Categories ────────────────────────────────────
+$hookahCatDefs = [
+    [$secHookah, 'Fresh Hookah',   'نارجيلة فريش',   'فرێش',              'c.c.rest.cafe-7363.png', 0],
+    [$secHookah, 'German Hookah',  'نارجيلة ألمانية', 'نێرگەلەی ئەڵمانی', 'c.c.rest.cafe-350d.png', 1],
+    [$secHookah, 'Regular Hookah', 'نارجيلة عادية',  'ئاسایی',            'c.c.rest.cafe-c776.png', 2],
+];
+$hookahCatIds = [];
+foreach ($hookahCatDefs as [$secId, $en, $ar, $ku, $icon, $sort]) {
+    $hookahCatIds[$en] = insert($pdo, 'categories', [
+        'restaurant_id' => $ccId,
+        'section_id'    => $secId,
+        'name_en'       => $en,
+        'name_ar'       => $ar,
+        'name_ku'       => $ku,
+        'icon'          => $ccBase . $icon,
+        'sort_order'    => $sort,
+        'is_active'     => 1,
+    ]);
+}
+echo "✓ C.C. hookah categories: " . count($hookahCatIds) . "\n";
+
+// ── C.C. Hookah Items ─────────────────────────────────────────
+$hookahItems = [
+    // فرێش  Fresh
+    ['Fresh Hookah',   'تایبەت C.C',        'نارجيلة سي سي المميزة', 'C.C. Special',     40000, 'c.c.rest.cafe(748).png'],
+    ['Fresh Hookah',   'شیشەی تایبەت',      'شيشة مميزة',            'Special Shisha',   30000, 'c.c.rest.cafe(751).png'],
+    ['Fresh Hookah',   'ئەنەناس',           'أناناس',                 'Pineapple',        18000, 'c.c.rest.cafe(754).png'],
+    // نێرگەلەی ئەڵمانی  German Hookah
+    ['German Hookah',  'نێرگەلەی ئەڵمانی',  'نارجيلة ألمانية',       'German Hookah',    15000, 'c.c.rest.cafe(743).jpg'],
+    // ئاسایی  Regular (text-only, no images)
+    ['Regular Hookah', 'C.C',               'سي سي',                  'C.C.',             10000, null],
+    ['Regular Hookah', 'سندی',              'سندي',                   'Sandy',            10000, null],
+    ['Regular Hookah', 'سەهم و نەعنا',      'سهم ونعناع',             'Apple & Mint',     10000, null],
+    ['Regular Hookah', 'لیمۆ و نەعنا',      'ليمون ونعناع',           'Lemon & Mint',     10000, null],
+    ['Regular Hookah', 'سەهم و کاڵەک',      'سهم وأفوكادو',           'Apple & Avocado',  10000, null],
+    ['Regular Hookah', 'ترێ و نعنا',        'عنب ونعناع',             'Grape & Mint',     10000, null],
+    ['Regular Hookah', 'بلوبێری',           'توت أزرق',               'Blueberry',        10000, null],
+    ['Regular Hookah', 'بنێشتی کوردی',      'بنفسجي كردي',            'Kurdish Violet',   10000, null],
+    ['Regular Hookah', 'قۆخ',               'فوخ',                    'Foukh',            10000, null],
+    ['Regular Hookah', 'بنێشتی بۆبی',       'بنفسجي بوبي',            'Bobby Violet',     10000, null],
+    ['Regular Hookah', 'ئینگلیزی',          'إنجليزي',                'English',          10000, null],
+    ['Regular Hookah', 'پۆرتۆ',             'بورتو',                  'Porto',            10000, null],
+    ['Regular Hookah', 'دوو سێو',           'تفاحتان',                'Double Apple',     10000, null],
+    ['Regular Hookah', 'مۆسکۆ',             'موسكو',                  'Moscow',           10000, null],
+    ['Regular Hookah', 'بەیروتی',           'بيروتي',                 'Beiruti',          10000, null],
+    ['Regular Hookah', 'سەهم و دارچین',     'سهم وقرفة',              'Apple & Cinnamon', 10000, null],
+    ['Regular Hookah', 'تۆکیۆ',             'طوكيو',                  'Tokyo',            10000, null],
+    ['Regular Hookah', 'تامی ئایسکرێم',     'طعم الآيس كريم',         'Ice Cream Flavor', 10000, null],
+];
+
+$hookahCount = 0;
+foreach ($hookahItems as $i => [$catEn, $ku, $ar, $en, $price, $img]) {
+    insert($pdo, 'items', [
+        'restaurant_id' => $ccId,
+        'category_id'   => $hookahCatIds[$catEn],
+        'name_en'       => $en,
+        'name_ar'       => $ar,
+        'name_ku'       => $ku,
+        'price'         => $price,
+        'image'         => $img ? $ccImgBase . $img : null,
+        'is_active'     => 1,
+        'sort_order'    => $i,
+    ]);
+    $hookahCount++;
+}
+echo "✓ C.C. hookah items: $hookahCount\n";
+
 echo "\n✅ Database seeded successfully!\n";
 echo "   DB path: $dbPath\n";
 echo "   Total restaurants: 3\n\n";
