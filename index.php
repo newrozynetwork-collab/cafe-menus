@@ -35,12 +35,15 @@ if (PHP_SAPI === 'cli-server') {
                 header("Content-Range: bytes $start-$end/$size");
             }
             header('Content-Length: ' . ($end - $start + 1));
+            // Disable output buffering so chunks stream immediately
+            while (ob_get_level()) ob_end_clean();
             $fp = fopen($filepath, 'rb');
             fseek($fp, $start);
             $remaining = $end - $start + 1;
             while ($remaining > 0 && !feof($fp)) {
                 $chunk = fread($fp, min(65536, $remaining));
                 echo $chunk;
+                flush();
                 $remaining -= strlen($chunk);
             }
             fclose($fp);
