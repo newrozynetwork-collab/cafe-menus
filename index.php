@@ -18,6 +18,34 @@ if (PHP_SAPI === 'cli-server') {
     $filepath = ROOT . $uri;
     // Serve non-PHP static files (css, js, images, fonts, svg…) directly
     if ($uri !== '/' && is_file($filepath) && !str_ends_with($uri, '.php')) {
+        // For video files: serve with range request support so browsers can stream
+        $ext = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
+        if (in_array($ext, ['mp4', 'webm', 'mov', 'ogg'])) {
+            $mimes = ['mp4'=>'video/mp4','webm'=>'video/webm','mov'=>'video/quicktime','ogg'=>'video/ogg'];
+            $size  = filesize($filepath);
+            $start = 0;
+            $end   = $size - 1;
+            header('Accept-Ranges: bytes');
+            header('Content-Type: ' . ($mimes[$ext] ?? 'video/mp4'));
+            if (isset($_SERVER['HTTP_RANGE'])) {
+                preg_match('/bytes=(\d+)-(\d*)/', $_SERVER['HTTP_RANGE'], $m);
+                $start = (int)$m[1];
+                $end   = isset($m[2]) && $m[2] !== '' ? (int)$m[2] : $size - 1;
+                http_response_code(206);
+                header("Content-Range: bytes $start-$end/$size");
+            }
+            header('Content-Length: ' . ($end - $start + 1));
+            $fp = fopen($filepath, 'rb');
+            fseek($fp, $start);
+            $remaining = $end - $start + 1;
+            while ($remaining > 0 && !feof($fp)) {
+                $chunk = fread($fp, min(65536, $remaining));
+                echo $chunk;
+                $remaining -= strlen($chunk);
+            }
+            fclose($fp);
+            exit;
+        }
         return false;
     }
 }
