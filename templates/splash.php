@@ -162,7 +162,7 @@ $brandLogo = asset_url('assets/images/tirana-logo-white.svg');
 <body>
 
 <?php if ($hasVideo && $videoUrl): ?>
-<video class="bg-video" autoplay loop muted playsinline poster="<?= e($vidThumb) ?>">
+<video class="bg-video" autoplay loop muted playsinline<?= $vidThumb ? ' poster="'.e($vidThumb).'"' : '' ?>>
   <source src="<?= e($videoUrl) ?>" type="video/mp4">
 </video>
 <div class="overlay"></div>

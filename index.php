@@ -23,17 +23,20 @@ if (PHP_SAPI === 'cli-server') {
         if (in_array($ext, ['mp4', 'webm', 'mov', 'ogg'])) {
             $mimes = ['mp4'=>'video/mp4','webm'=>'video/webm','mov'=>'video/quicktime','ogg'=>'video/ogg'];
             $size  = filesize($filepath);
-            $start = 0;
-            $end   = $size - 1;
             header('Accept-Ranges: bytes');
             header('Content-Type: ' . ($mimes[$ext] ?? 'video/mp4'));
             if (isset($_SERVER['HTTP_RANGE'])) {
                 preg_match('/bytes=(\d+)-(\d*)/', $_SERVER['HTTP_RANGE'], $m);
                 $start = (int)$m[1];
                 $end   = isset($m[2]) && $m[2] !== '' ? (int)$m[2] : $size - 1;
-                http_response_code(206);
-                header("Content-Range: bytes $start-$end/$size");
+            } else {
+                // No Range header: serve first 1 MB only so PHP workers aren't
+                // blocked streaming the full file before range requests arrive.
+                $start = 0;
+                $end   = min(1048575, $size - 1);
             }
+            http_response_code(206);
+            header("Content-Range: bytes $start-$end/$size");
             header('Content-Length: ' . ($end - $start + 1));
             // Disable output buffering so chunks stream immediately
             while (ob_get_level()) ob_end_clean();
