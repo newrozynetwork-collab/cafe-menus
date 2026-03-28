@@ -273,7 +273,7 @@ $ccId = insert($pdo, 'restaurants', [
     'social_facebook'  => 'https://www.facebook.com/c.c.cafesulaimany',
     'social_instagram' => 'https://www.instagram.com/c.c.restaurant.cafe',
     'social_phone'     => '+9647707403030',
-    'social_location'  => '',
+    'social_location'  => 'https://maps.google.com/?q=C.C+Rest+%26+Cafe+Sulaymaniyah',
     'has_splash_video' => 1,
     'splash_video_url'   => 'uploads/Slemani/c.c.rest.cafe/th/v/c.c.rest.cafe-96d1.mp4',
     'splash_video_thumb' => null,
