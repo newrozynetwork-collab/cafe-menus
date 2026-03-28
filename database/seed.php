@@ -275,8 +275,8 @@ $ccId = insert($pdo, 'restaurants', [
     'social_phone'     => '+9647707403030',
     'social_location'  => '',
     'has_splash_video' => 1,
-    'splash_video_url'   => 'uploads/Slemani/c.c.rest.cafe/th/v/c.c.rest.cafe-96d1.png',
-    'splash_video_thumb' => 'uploads/Slemani/c.c.rest.cafe/th/v/c.c.rest.cafe-96d1.png',
+    'splash_video_url'   => 'uploads/Slemani/c.c.rest.cafe/th/v/c.c.rest.cafe-96d1.mp4',
+    'splash_video_thumb' => 'uploads/Slemani/c.c.rest.cafe/th/v/c.c.rest.cafe-96d1.mp4',
     'has_ad'           => 0,
     'is_active'        => 1,
 ]);
